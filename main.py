@@ -3,6 +3,7 @@ from itchat.content import TEXT
 from config import *
 from cepingfu import CPF
 import multiprocessing
+import traceback
 
 
 app = itchat.new_instance()
@@ -14,28 +15,41 @@ def main(msg):
         return HELP_MSG
     elif msg.text == '1':
         # 判断测评符是否正在刷单
-        if True:
-            process = multiprocessing.Process(target=cpf.main, name='cpf')
-            process.wait()
-        else:
+        try:
+            if not process_cpf.is_alive():
+                process_cpf.start()
+        except:
+            traceback.print_exc()
+            process_cpf.start()
+        finally:
             return '刷单程序运行中'
     elif msg.text == '2':
         # 判断测评符是否正在刷单
-        if True:
-            pass
-        else:
+        try:
+            if process_cpf.is_alive():
+                process_cpf.terminate()
+        except:
+            process_cpf.terminate()
+        finally:
             return '刷单程序已关闭'
+    else:
+        return HELP_MSG
 
 
-# 登录，并进入主循环
+# 登录
 app.auto_login(hotReload=True)
-app.run(blockThread=False)
 
 # 所有信息发送给to
-to = app.search_friends(nickName=TO_NICKNAME)[0].userName
+to = app.loginInfo['User'].userName
+# to = app.search_friends(nickName=TO_NICKNAME)[0].userName
+
+# 测评符对象
+cpf = CPF(app, to)
+process_cpf = multiprocessing.Process(target=cpf.main, name='cpf')
+process_cpf.daemon = True
 
 # 登录成功后，发送帮助信息
 app.send(HELP_MSG, to)
 
-# 测评符对象
-cpf = CPF(app, to)
+# 进入主循环
+app.run()

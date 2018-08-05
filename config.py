@@ -1,5 +1,4 @@
 # coding:utf-8
-from os import environ
 
 # region 主程序相关设置项
 
@@ -18,8 +17,17 @@ HELP_MSG = '''
 
 # region 测评符相关设置项
 
+# 模拟器可执行文件地址
+SIMULATOR = r'C:\Program Files\ttmnq\TianTian.exe'
+
 # 模拟器监听的端口号
 port = '6555'
+
+# APPIUM可执行文件地址
+APPIUM = r'C:\Program Files (x86)\Appium\Appium.exe'
+
+# APPIUM启动界面开始按钮的截图地址
+START_APPIUM = './start_appium.PNG'
 
 # driver 设置
 desired_caps = {
@@ -30,7 +38,5 @@ desired_caps = {
         'appActivity': '.MainActivity',
         'noReset': True
     }
-
-START_APPIUM = environ.get('START_APPIUM')
 
 # endregion
