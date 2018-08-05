@@ -1,9 +1,9 @@
 import itchat
 from itchat.content import TEXT
 from config import *
-from cepingfu import CPF
-import multiprocessing
 import traceback
+import os
+import subprocess
 
 
 app = itchat.new_instance()
@@ -14,15 +14,18 @@ def main(msg):
     if msg.text == '0':
         return HELP_MSG
     elif msg.text == '1':
+        with open(os.devnull, 'w') as nohup:
+            p = subprocess.Popen(CPF_RUN_CMD, shell=True, stdout=nohup)
         # 判断测评符是否正在刷单
-        try:
-            if not process_cpf.is_alive():
-                process_cpf.start()
-        except:
-            traceback.print_exc()
-            process_cpf.start()
-        finally:
-            return '刷单程序运行中'
+        # try:
+        #     if not process_cpf.is_alive():
+        #         process_cpf.start()
+        # except:
+        #     traceback.print_exc()
+        #     process_cpf.start()
+        # finally:
+        #     return '刷单程序运行中'
+        print('fd')
     elif msg.text == '2':
         # 判断测评符是否正在刷单
         try:
@@ -40,13 +43,8 @@ def main(msg):
 app.auto_login(hotReload=True)
 
 # 所有信息发送给to
-to = app.loginInfo['User'].userName
-# to = app.search_friends(nickName=TO_NICKNAME)[0].userName
-
-# 测评符对象
-cpf = CPF(app, to)
-process_cpf = multiprocessing.Process(target=cpf.main, name='cpf')
-process_cpf.daemon = True
+# to = app.loginInfo['User'].userName
+to = app.search_friends(nickName=TO_NICKNAME)[0].userName
 
 # 登录成功后，发送帮助信息
 app.send(HELP_MSG, to)
