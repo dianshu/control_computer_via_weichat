@@ -25,6 +25,8 @@ def main(msg):
         # 判断测评符是否正在刷单
         if pid > 0:
             subprocess.Popen('kill -9 %d' % pid)
+            global pid
+            pid = -1
         return '刷单程序已关闭'
     else:
         return HELP_MSG
