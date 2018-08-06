@@ -21,7 +21,7 @@ HELP_MSG = '''
 SIMULATOR = r'C:\Program Files\ttmnq\TianTian.exe'
 
 # 模拟器监听的端口号
-port = '6555'
+port = '62001'
 
 # APPIUM可执行文件地址
 APPIUM = r'C:\Program Files (x86)\Appium\Appium.exe'
@@ -33,7 +33,7 @@ START_APPIUM = './start_appium.PNG'
 desired_caps = {
         'deviceName': '127.0.0.1:%s' % port,
         'platformName': 'Android',
-        'platformVersion': '4.4.4',
+        'platformVersion': '4.4.2',
         'appPackage': 'com.quwanhe.buyer',
         'appActivity': '.MainActivity',
         'noReset': True

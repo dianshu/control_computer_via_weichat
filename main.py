@@ -7,6 +7,7 @@ import subprocess
 
 
 app = itchat.new_instance()
+pid = -1
 
 
 @app.msg_register(TEXT)
@@ -14,27 +15,17 @@ def main(msg):
     if msg.text == '0':
         return HELP_MSG
     elif msg.text == '1':
-        with open(os.devnull, 'w') as nohup:
-            p = subprocess.Popen(CPF_RUN_CMD, shell=True, stdout=nohup)
-        # 判断测评符是否正在刷单
-        # try:
-        #     if not process_cpf.is_alive():
-        #         process_cpf.start()
-        # except:
-        #     traceback.print_exc()
-        #     process_cpf.start()
-        # finally:
-        #     return '刷单程序运行中'
-        print('fd')
+        if pid < 0:
+            with open(os.devnull, 'w') as nohup:
+                p = subprocess.Popen(CPF_RUN_CMD, shell=True, stdout=nohup)
+                global pid
+                pid = p.pid
+        return '刷单程序已启动'
     elif msg.text == '2':
         # 判断测评符是否正在刷单
-        try:
-            if process_cpf.is_alive():
-                process_cpf.terminate()
-        except:
-            process_cpf.terminate()
-        finally:
-            return '刷单程序已关闭'
+        if pid > 0:
+            subprocess.Popen('kill -9 %d' % pid)
+        return '刷单程序已关闭'
     else:
         return HELP_MSG
 
