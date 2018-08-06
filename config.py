@@ -3,11 +3,11 @@
 # region 主程序相关设置项
 
 # 微信收信人的昵称
-TO_NICKNAME = '水'
+TO_NICKNAME = '白羊'
 
 # 登录成功后发送的帮助信息
 HELP_MSG = '''
-发送对应的数字，来运行对应的命令
+发送指定的数字，来运行命令
 0：显示此帮助
 1：开始测评符刷单
 2：停止测评符刷单
@@ -33,10 +33,14 @@ START_APPIUM = './start_appium.PNG'
 desired_caps = {
         'deviceName': '127.0.0.1:%s' % port,
         'platformName': 'Android',
-        'platformVersion': '6.0.1',
+        'platformVersion': '4.4.4',
         'appPackage': 'com.quwanhe.buyer',
         'appActivity': '.MainActivity',
         'noReset': True
     }
+
+# 测评符程序运行CMD
+CPF_RUN_CMD = 'C:\Miniconda3\python.exe cepingfu.py'
+
 
 # endregion
